@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+    {{blog.title}}</h1><br>
+    {{blog.content|safe}}<br><br>
+    <form method="post" id="shareForm">
+        {% csrf_token %}
+        <input type="button" value="Share This Blog" id="shareButton"><br>
+        <input type="text" placeholder="Enter Email" name="email" id="emailInput" style="display: none;" required><br>
+        <input type="submit" value="Submit" id="submitButton" style="display: none;"><br>
+    </form>  
+
+    <form method="post">
+        {% csrf_token %}
+        <textarea placeholder="Your Comment Here" name="comment" required></textarea>
+        <input type="submit" value="Submit">  <!-- Change type to "submit" -->
+    </form>
+
+    <h2>Comments</h2>
+    {% for comment in blog.comment_set.all %}
+        <p>{{ comment.text }}</p>
+        <p>Commented by: {{ comment.user.username }}</p>
+        <p>Commented at: {{ comment.created_at }}</p>
+        <hr>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+    
+</body>
+<script>
+    document.getElementById("shareButton").addEventListener("click", function() {
+        var shareButton = document.getElementById("shareButton");
+        var emailInput = document.getElementById("emailInput");
+        var submitButton = document.getElementById("submitButton");
+        
+        // Show email input field and submit button
+        emailInput.style.display = "block";
+        submitButton.style.display = "block";
+        
+        // Hide the Share This Blog button
+        shareButton.style.display = "none";
+    });
+</script>
+
+</html>
