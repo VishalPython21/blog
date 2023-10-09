@@ -12,7 +12,6 @@ from django.contrib.auth import logout as auth_logout
 # Create your views here.
 
 
-
 def login(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -73,7 +72,6 @@ def show_data(request, id):
             sender_email = settings.EMAIL_HOST_USER
             recipient_list = [email]
             
-            # Send the email
             send_mail(subject, message, sender_email, recipient_list, fail_silently=False)
     return render(request, 'show_data.html', {'blog': blog})
 
